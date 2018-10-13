@@ -1,11 +1,10 @@
 package market.repository.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
-import market.json.ProductDeserializer;
-import market.json.ProductSerializer;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,8 +12,7 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-@JsonSerialize(using = ProductSerializer.class)
-@JsonDeserialize(using = ProductDeserializer.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Product {
 
     @Id
@@ -24,13 +22,13 @@ public class Product {
 
     private BigDecimal price;
 
-    @Column(unique = true)
     private String sku;
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonProperty(value = "category")
     private Category category;
 
 }

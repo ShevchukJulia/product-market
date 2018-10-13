@@ -1,9 +1,11 @@
-package market.service;
+package market.service.impl;
 
 import market.exeption.InvalidDataException;
 import market.exeption.ItemNotFoundException;
 import market.repository.model.Category;
 import market.repository.CategoryRepository;
+import market.repository.model.Product;
+import market.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -68,4 +70,8 @@ public class CategoryServiceImpl implements CategoryService {
         repository.delete(category);
     }
 
+    public void addProduct(Category category, Product product) {
+        category.getProducts().add(product);
+        product.setCategory(category);
+    }
 }

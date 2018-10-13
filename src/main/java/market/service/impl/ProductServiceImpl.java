@@ -1,9 +1,12 @@
-package market.service;
+package market.service.impl;
 
 import market.exeption.InvalidDataException;
 import market.exeption.ItemNotFoundException;
 import market.repository.ProductRepository;
+import market.repository.model.Category;
 import market.repository.model.Product;
+import market.service.CategoryService;
+import market.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -15,10 +18,12 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
+    private CategoryService categoryService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService) {
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -28,12 +33,21 @@ public class ProductServiceImpl implements ProductService {
                     "Product with sku {0} has already existed", product.getSku()));
         }
 
+        Category category = categoryService.findById(product.getCategory().getId());
+        categoryService.addProduct(category, product);
+
         return productRepository.save(product);
     }
 
     @Override
     public Product update(Product product) {
         Product productToUpdate = findById(product.getId());
+
+        if (!productToUpdate.getSku().equals(product.getSku())
+                && productRepository.findBySku(product.getSku()).isPresent()) {
+            throw new InvalidDataException(MessageFormat.format(
+                    "Product with sku {0} has already existed", product.getSku()));
+        }
 
         if (!StringUtils.isEmpty(product.getName())) {
             productToUpdate.setName(product.getName());
@@ -48,7 +62,8 @@ public class ProductServiceImpl implements ProductService {
         }
 
         if (product.getCategory() != null) {
-            productToUpdate.setCategory(product.getCategory());
+            Category category = categoryService.findById(product.getCategory().getId());
+            categoryService.addProduct(category, productToUpdate);
         }
 
         return productRepository.save(productToUpdate);

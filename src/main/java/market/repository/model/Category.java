@@ -1,5 +1,7 @@
 package market.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Category {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,10 +23,5 @@ public class Category {
 
     @OneToMany(mappedBy = "category", orphanRemoval = true)
     private List<Product> products;
-
-    public void addProduct(Product product) {
-        products.add(product);
-        product.setCategory(this);
-    }
 
 }
