@@ -1,0 +1,90 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create_category" author="shevchuk">
+        <createTable tableName="category">
+            <column name="category_id" type="bigserial">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="category_name" type="varchar(250)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_product" author="shevchuk">
+        <createTable tableName="product">
+            <column name="product_id" type="bigserial">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="price" type="numeric">
+                <constraints checkConstraint="CHECK (price &gt; 0)"/>
+            </column>
+            <column name="sku" type="varchar(50)"/>
+            <column name="name" type="varchar(250)"/>
+            <column name="category_id" type="integer"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="create_product_order" author="shevchuk">
+        <createTable tableName="product_order">
+            <column name="order_id" type="bigserial">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="total_amount" type="numeric"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="create_order_item" author="shevchuk">
+        <createTable tableName="order_item">
+            <column name="order_item_id" type="bigserial">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="quantity" type="integer"/>
+            <column name="order_id" type="integer"/>
+            <column name="product_id" type="integer"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="addForeignKeyConstraint-product" author="shevchuk">
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="product"
+                                 constraintName="fk_category_product"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="category_id"
+                                 referencedTableName="category"/>
+    </changeSet>
+
+    <changeSet id="addForeignKeyConstraint-order_item_order" author="shevchuk">
+        <addForeignKeyConstraint baseColumnNames="order_item_id"
+                                 baseTableName="order_item"
+                                 constraintName="fk_order_item_order"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="order_id"
+                                 referencedTableName="product_order"/>
+    </changeSet>
+
+    <changeSet id="addForeignKeyConstraint-order_item_product" author="shevchuk">
+        <addForeignKeyConstraint baseColumnNames="order_item_id"
+                                 baseTableName="order_item"
+                                 constraintName="fk_order_item_product"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="product_id"
+                                 referencedTableName="product"/>
+    </changeSet>
+
+</databaseChangeLog>

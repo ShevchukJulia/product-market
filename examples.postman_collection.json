@@ -198,7 +198,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\": 2,\n    \"price\": 1000,\n    \"sku\": \"tuo-097M\",\n    \"name\": \"Doll-5\",\n    \"category\": {\n    \t\"id\": 1,\n    \t\"name\": \"Toysm2\"\n    }\n}"
+							"raw": "{\n\t\"id\": 1,\n    \"price\": 2000,\n    \"sku\": \"tuo-097M\",\n    \"name\": \"Doll-5\",\n    \"category\": {\n    \t\"id\": 1,\n    \t\"name\": \"Toys 0-3\"\n    }\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8083/api/products",
@@ -222,7 +222,7 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:8083/api/products/2",
+							"raw": "http://localhost:8083/api/products/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -231,7 +231,7 @@
 							"path": [
 								"api",
 								"products",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -321,7 +321,7 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:8083/api/orders/3",
+							"raw": "http://localhost:8083/api/orders/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -330,7 +330,7 @@
 							"path": [
 								"api",
 								"orders",
-								"3"
+								"1"
 							]
 						}
 					},
@@ -348,7 +348,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{  \n   \"id\":3,\n   \"totalAmount\":0,\n   \"orderItems\":[  \n      {  \n         \"id\":5,\n         \"quantity\":5,\n         \"product\":{  \n            \"id\":2,\n            \"price\":1000,\n            \"sku\":\"tuo-097M\",\n            \"name\":\"Doll-5\",\n            \"category\":{  \n               \"id\":1,\n               \"name\":\"Toys 0-3\",\n               \"products\":[  \n                  2\n               ]\n            }\n         },\n         \"order\":3\n      }\n   ]\n}"
+							"raw": "{  \n   \"id\": 1,\n   \"totalAmount\": 5000,\n   \"orderItems\": [  \n      {  \n         \"id\": 1,\n         \"quantity\": 5,\n         \"product\": {  \n            \"id\": 1,\n            \"price\": 1000,\n            \"sku\": \"tuo-097M\",\n            \"name\": \"Doll-5\",\n            \"category\": {  \n               \"id\": 1,\n               \"name\": \"Toys 0-3\",\n               \"products\": [  \n                  1\n               ]\n            }\n         },\n         \"order\": 1\n      }\n   ]\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8083/api/orders",
@@ -404,7 +404,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"quantity\": 5,\n\t\"product\": {\n\t\t\"id\": 2,\n        \"price\": 1000,\n        \"sku\": \"tuo-097M\",\n        \"name\": \"Bear Rap\",\n        \"category\": {\n        \t\"id\": 1\n        \t\n        }\n\t}\n}"
+							"raw": "{\n\t\"quantity\": 5,\n\t\"product\": {\n\t\t\"id\": 1,\n        \"price\": 1000,\n        \"sku\": \"tuo-097M\",\n        \"name\": \"Bear Rap\",\n        \"category\": {\n        \t\"id\": 1\n        \t\n        }\n\t}\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8083/api/orderItems",
@@ -449,7 +449,7 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:8083/api/orderItems/4",
+							"raw": "http://localhost:8083/api/orderItems/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -458,7 +458,7 @@
 							"path": [
 								"api",
 								"orderItems",
-								"4"
+								"1"
 							]
 						}
 					},
@@ -476,7 +476,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 4,\n    \"quantity\": 1,\n    \"product\": {\n        \"id\": 2,\n        \"price\": 1000,\n        \"sku\": \"tuo-097M\",\n        \"name\": \"Doll-5\",\n        \"category\": {\n            \"id\": 1,\n            \"name\": \"Toys 0-3\",\n            \"products\": [\n                2\n            ]\n        }\n    }\n}"
+							"raw": "{\n    \"id\": 1,\n    \"quantity\": 1,\n    \"product\": {\n        \"id\": 1,\n        \"price\": 1000,\n        \"sku\": \"tuo-097M\",\n        \"name\": \"Doll-5\",\n        \"category\": {\n            \"id\": 1,\n            \"name\": \"Toys 0-3\",\n            \"products\": [\n                1\n            ]\n        }\n    }\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8083/api/orderItems",
