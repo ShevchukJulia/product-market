@@ -6,7 +6,7 @@
 
     <changeSet id="create_category" author="shevchuk">
         <createTable tableName="category">
-            <column name="category_id" type="bigserial">
+            <column name="category_id" type="serial">
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="category_name" type="varchar(250)">
@@ -17,7 +17,7 @@
 
     <changeSet id="create_product" author="shevchuk">
         <createTable tableName="product">
-            <column name="product_id" type="bigserial">
+            <column name="product_id" type="serial">
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="price" type="numeric">
@@ -32,17 +32,19 @@
 
     <changeSet id="create_product_order" author="shevchuk">
         <createTable tableName="product_order">
-            <column name="order_id" type="bigserial">
+            <column name="order_id" type="serial">
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="total_amount" type="numeric"/>
+            <column name="creation_date" type="date">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
-
     <changeSet id="create_order_item" author="shevchuk">
         <createTable tableName="order_item">
-            <column name="order_item_id" type="bigserial">
+            <column name="order_item_id" type="serial">
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="quantity" type="integer"/>

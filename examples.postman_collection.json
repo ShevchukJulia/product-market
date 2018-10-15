@@ -516,6 +516,42 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Report",
+			"item": [
+				{
+					"name": "Generate Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8083/api/report?fromDate=2018-10-14&toDate=2018-10-15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"api",
+								"report"
+							],
+							"query": [
+								{
+									"key": "fromDate",
+									"value": "2018-10-14"
+								},
+								{
+									"key": "toDate",
+									"value": "2018-10-15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

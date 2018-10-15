@@ -12,9 +12,9 @@ services:
 
   product-market:
     image: product-market
+    restart: always
     depends_on:
       - db
     ports:
       - "8083:8083"
-    restart: always
 
