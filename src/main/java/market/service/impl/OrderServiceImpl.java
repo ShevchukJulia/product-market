@@ -2,10 +2,13 @@ package market.service.impl;
 
 import market.exeption.ItemNotFoundException;
 import market.repository.OrderRepository;
+import market.elasticsearch.repository.OrderSearchRepository;
 import market.repository.model.Order;
 import market.repository.model.OrderItem;
 import market.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,15 +20,19 @@ import java.util.Set;
 public class OrderServiceImpl implements OrderService {
 
     private OrderRepository repository;
+    private OrderSearchRepository elasticsearchRepository;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository repository) {
+    public OrderServiceImpl(OrderRepository repository, OrderSearchRepository elasticsearchRepository) {
         this.repository = repository;
+        this.elasticsearchRepository = elasticsearchRepository;
     }
 
     @Override
     public Order create(Order order) {
-        return repository.save(order);
+        Order savedOrder = repository.save(order);
+        elasticsearchRepository.save(savedOrder);
+        return savedOrder;
     }
 
     @Override
@@ -41,7 +48,9 @@ public class OrderServiceImpl implements OrderService {
             orderToUpdate.setTotalAmount(order.getTotalAmount());
         }
 
-        return repository.save(order);
+        repository.save(order);
+        elasticsearchRepository.save(order);
+        return order;
     }
 
     @Override
@@ -57,8 +66,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Page<Order> findByProductName(String name, Pageable pageable) {
+        return elasticsearchRepository.findByOrderItemsProductNameContainsIgnoreCase(name, pageable);
+    }
+
+    @Override
     public void delete(Long id) {
-        repository.deleteById(id);
+        Order order = findById(id);
+
+        elasticsearchRepository.delete(order);
+        repository.delete(order);
     }
 
     @Override

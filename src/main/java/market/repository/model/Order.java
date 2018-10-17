@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -12,10 +15,13 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
+@Table(name = "product_order")
+
 @Getter
 @Setter
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Order.class)
-@Table(name = "product_order")
+
+@Document(indexName = "order", type = "order")
 public class Order {
 
     @Id
@@ -31,6 +37,7 @@ public class Order {
     private LocalDate creationDate;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Field(type = FieldType.Nested, includeInParent = true)
     private Set<OrderItem> orderItems;
 
 }

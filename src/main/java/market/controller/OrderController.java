@@ -3,6 +3,8 @@ package market.controller;
 import market.repository.model.Order;
 import market.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +45,11 @@ public class OrderController {
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
     public void removeOrder(@PathVariable Long id) {
         service.delete(id);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/search", params = {"name"})
+    public Page<Order> findPageByProductName(String name, Pageable pageable) {
+        return service.findByProductName(name, pageable);
     }
 
 }

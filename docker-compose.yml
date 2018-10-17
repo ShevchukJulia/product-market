@@ -8,13 +8,26 @@ services:
       POSTGRES_PASSWORD: password1
       POSTGRES_DB: product-market
     ports:
-        - "5432:5432"
+      - "5432"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+    restart: always
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+      - cluster.name=product-market-cluster
+      - bootstrap.memory_lock=true
+      - "xpack.security.enabled=false"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
   product-market:
     image: product-market
     restart: always
     depends_on:
       - db
+      - elasticsearch
     ports:
       - "8083:8083"
-
