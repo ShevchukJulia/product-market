@@ -42,15 +42,16 @@ public class OrderServiceImpl implements OrderService {
         if (!order.getOrderItems().isEmpty()) {
             orderToUpdate.getOrderItems().addAll(order.getOrderItems());
             orderToUpdate.getOrderItems().retainAll(order.getOrderItems());
+        } else {
+            orderToUpdate.getOrderItems().clear();
         }
 
         if (order.getTotalAmount() != null) {
             orderToUpdate.setTotalAmount(order.getTotalAmount());
         }
 
-        repository.save(order);
-        elasticsearchRepository.save(order);
-        return order;
+        elasticsearchRepository.save(orderToUpdate);
+        return repository.save(orderToUpdate);
     }
 
     @Override
@@ -95,6 +96,7 @@ public class OrderServiceImpl implements OrderService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         order.setTotalAmount(amount);
+        elasticsearchRepository.save(order);
     }
 
 }

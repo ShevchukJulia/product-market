@@ -552,6 +552,43 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Elasticsearch",
+			"item": [
+				{
+					"name": "Find Order by Product Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8083/api/orders/search?name=Cat&page=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"api",
+								"orders",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Cat"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

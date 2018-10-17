@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -24,6 +26,7 @@ public class Product {
 
     private String sku;
 
+    @Field(type = FieldType.Nested, includeInParent = true)
     private String name;
 
     @ManyToOne
