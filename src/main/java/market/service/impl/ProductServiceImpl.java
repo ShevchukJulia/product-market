@@ -9,6 +9,7 @@ import market.service.CategoryService;
 import market.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
@@ -27,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product create(Product product) {
         if (productRepository.findBySku(product.getSku()).isPresent()) {
             throw new InvalidDataException(MessageFormat.format(
@@ -40,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product update(Product product) {
         Product productToUpdate = findById(product.getId());
 
@@ -82,6 +85,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         productRepository.delete(findById(id));
     }

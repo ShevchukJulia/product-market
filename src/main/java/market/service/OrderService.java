@@ -25,4 +25,6 @@ public interface OrderService {
 
     void updateTotalAmount(Order order);
 
+    Order saveForSearch(Order order);
+
 }

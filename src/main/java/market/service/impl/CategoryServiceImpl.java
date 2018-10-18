@@ -8,6 +8,7 @@ import market.repository.model.Product;
 import market.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
@@ -25,6 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public Category create(Category category) {
         if (StringUtils.isEmpty(category.getName())) {
             throw new InvalidDataException("Category name can not be empty");
@@ -38,6 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public Category update(Category category) {
         Optional<Category> categoryOptional = repository.findById(category.getId());
         if (!categoryOptional.isPresent()) {
@@ -63,6 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Category category = repository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(MessageFormat.format(

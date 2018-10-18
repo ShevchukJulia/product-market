@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -29,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order create(Order order) {
         Order savedOrder = repository.save(order);
         elasticsearchRepository.save(savedOrder);
@@ -36,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order update(Order order) {
         Order orderToUpdate = findById(order.getId());
 
@@ -72,6 +75,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Order order = findById(id);
 
@@ -96,7 +100,11 @@ public class OrderServiceImpl implements OrderService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         order.setTotalAmount(amount);
-        elasticsearchRepository.save(order);
+    }
+
+    @Override
+    public Order saveForSearch(Order order) {
+        return elasticsearchRepository.save(order);
     }
 
 }

@@ -11,6 +11,7 @@ import market.service.OrderService;
 import market.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -30,6 +31,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
+    @Transactional
     public OrderItem create(OrderItem item) {
         if (item.getProduct() == null || item.getQuantity() == null) {
             throw new InvalidDataException("Product and quantity can not be null");
@@ -43,12 +45,14 @@ public class OrderItemServiceImpl implements OrderItemService {
         if (item.getOrder() != null) {
             Order order = orderService.findById(item.getOrder().getId());
             orderService.addOrderItem(order, item);
+            orderService.saveForSearch(order);
         }
 
         return repository.save(item);
     }
 
     @Override
+    @Transactional
     public OrderItem update(OrderItem item) {
         OrderItem itemToUpdate = findById(item.getId());
 
@@ -61,9 +65,10 @@ public class OrderItemServiceImpl implements OrderItemService {
             itemToUpdate.setProduct(product);
         }
 
-        if (itemToUpdate.getOrder() != null) {
+        if (item.getOrder() != null && item.getOrder().getId() != null) {
             Order order = orderService.findById(item.getOrder().getId());
-            orderService.addOrderItem(order, item);
+            orderService.addOrderItem(order, itemToUpdate);
+            orderService.saveForSearch(order);
         }
 
         return repository.save(itemToUpdate);
@@ -82,10 +87,12 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         OrderItem orderItem = findById(id);
         orderItem.getOrder().getOrderItems().remove(orderItem);
         orderService.updateTotalAmount(orderItem.getOrder());
+        orderService.saveForSearch(orderItem.getOrder());
         repository.delete(orderItem);
     }
 
